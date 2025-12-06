@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardMenu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Menu Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <!-- Menu Image -->
+            <ImageView
+                android:id="@+id/ivMenuImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_book_placeholder"
+                android:background="@color/light_gray"
+                android:layout_marginEnd="16dp"/>
+
+            <!-- Menu Info -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Name & Category -->
+                <TextView
+                    android:id="@+id/tvMenuName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nasi Ayam Geprek"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_dark"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
+
+                <TextView
+                    android:id="@+id/tvMenuCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🏷️ Makanan Berat"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_gray"
+                    android:layout_marginTop="4dp"/>
+
+                <!-- Description -->
+                <TextView
+                    android:id="@+id/tvMenuDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nasi dengan ayam geprek pedas"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_gray"
+                    android:layout_marginTop="6dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
+
+                <!-- Price -->
+                <TextView
+                    android:id="@+id/tvMenuPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp 18.000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    android:layout_marginTop="8dp"/>
+
+                <!-- Rating -->
+                <TextView
+                    android:id="@+id/tvRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⭐ 4.5 (20)"
+                    android:textSize="12sp"
+                    android:textColor="@color/warning"
+                    android:layout_marginTop="4dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_gray"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <!-- Actions -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center_vertical">
+
+            <!-- Status -->
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="✅ Tersedia"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/success"/>
+
+            <!-- Availability Switch -->
+            <Switch
+                android:id="@+id/switchAvailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- Edit Button -->
+            <TextView
+                android:id="@+id/btnEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✏️ Edit"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/info"
+                android:padding="8dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"/>
+
+            <!-- Delete Button -->
+            <TextView
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🗑️ Hapus"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/danger"
+                android:padding="8dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

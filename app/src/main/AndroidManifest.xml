@@ -2,10 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kantinkampus">
 
-    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +22,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Auth -->
+        <!-- AUTH -->
         <activity android:name=".RegisterActivity" />
 
         <!-- SELLER -->
@@ -34,22 +31,11 @@
         <activity android:name=".CreateStandActivity" />
         <activity android:name=".SellerManageMenusActivity" />
         <activity android:name=".SellerManageOrdersActivity" />
-        <activity android:name=".SellerStatisticsActivity" />
-        <activity android:name=".SellerProfileActivity" />
 
         <!-- BUYER -->
         <activity android:name=".MainActivity" />
         <activity android:name=".StandListActivity" />
         <activity android:name=".MenuListActivity" />
-        <activity android:name=".MenuDetailActivity" />
-        <activity android:name=".CartActivity" />
-        <activity android:name=".CheckoutActivity" />
-        <activity android:name=".BuyerOrdersActivity" />
-        <activity android:name=".FavoritesActivity" />
-        <activity android:name=".AddReviewActivity" />
-
-        <!-- SHARED -->
-        <activity android:name=".NotificationsActivity" />
 
     </application>
 
