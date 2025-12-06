@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pilih metode pembayaran Anda:"
+        android:textSize="14sp"
+        android:textColor="@color/text_gray"
+        android:layout_marginBottom="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgPaymentMethod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Cash -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp">
+
+            <RadioButton
+                android:id="@+id/rbCash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💵 Cash (Tunai)"
+                android:padding="16dp"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:checked="true"
+                android:background="@color/light_gray"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- E-Wallet - GoPay -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp">
+
+            <RadioButton
+                android:id="@+id/rbGoPay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💳 GoPay"
+                android:padding="16dp"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:background="@color/light_gray"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- E-Wallet - OVO -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp">
+
+            <RadioButton
+                android:id="@+id/rbOVO"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💳 OVO"
+                android:padding="16dp"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:background="@color/light_gray"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- E-Wallet - Dana -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp">
+
+            <RadioButton
+                android:id="@+id/rbDana"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💳 DANA"
+                android:padding="16dp"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:background="@color/light_gray"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Bank Transfer -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp">
+
+            <RadioButton
+                android:id="@+id/rbBankTransfer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🏦 Transfer Bank"
+                android:padding="16dp"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:background="@color/light_gray"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ℹ️ Untuk pembayaran non-tunai, lakukan pembayaran di kasir saat mengambil pesanan."
+        android:textSize="12sp"
+        android:textColor="@color/text_gray"
+        android:textStyle="italic"
+        android:layout_marginTop="16dp"
+        android:background="@color/light_orange"
+        android:padding="12dp"/>
+
+</LinearLayout>

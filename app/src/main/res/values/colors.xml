@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors - Orange Theme for Food -->
+    <color name="primary">#FF6B35</color>
+    <color name="primary_dark">#E85A2C</color>
+    <color name="accent">#FFD23F</color>
+
+    <!-- Secondary Colors -->
+    <color name="secondary">#4ECDC4</color>
+    <color name="secondary_dark">#3BB5AD</color>
+
+    <!-- Background Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="background">#FFF8F3</color>
+    <color name="light_orange">#FFF4ED</color>
+    <color name="light_gray">#F5F5F5</color>
+
+    <!-- Text Colors -->
+    <color name="text_dark">#2D3436</color>
+    <color name="text_gray">#636E72</color>
+    <color name="text_light">#B2BEC3</color>
+
+    <!-- Status Colors -->
+    <color name="success">#29DAB7</color>
+    <color name="warning">#FDCB6E</color>
+    <color name="danger">#FF7675</color>
+    <color name="info">#74B9FF</color>
+
+    <!-- Gradient Colors -->
+    <color name="gradient_start">#FF6B35</color>
+    <color name="gradient_end">#FF8C42</color>
+
+    <!-- Other -->
+    <color name="gray">#636E72</color>
+    <color name="dark_gray">#2D3436</color>
+    <color name="green">#28B800</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+</resources>
