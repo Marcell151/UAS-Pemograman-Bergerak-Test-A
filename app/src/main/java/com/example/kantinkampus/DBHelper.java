@@ -1593,7 +1593,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // ==================== STATISTICS (FOR DASHBOARD) ====================
 
-    public int getTotalOrders ByStatus(int sellerId, String status) {
+    public int getTotalOrdersByStatus(int sellerId, String status) {
         SQLiteDatabase db = this.getReadableDatabase();
         try {
             String query = "SELECT COUNT(*) FROM " + TABLE_ORDERS + " o " +
@@ -1630,6 +1630,28 @@ public class DBHelper extends SQLiteOpenHelper {
             return 0;
         }
     }
+
+    public int getTotalOrdersBySeller(int sellerId, String status) {
+        if ("all".equals(status)) {
+            // Return all orders
+        } else {
+            // Return filtered by status
+        }
+        return sellerId;
+    }
+
+    public List<Menu> getFavoriteMenus(int buyerId) {
+        // Return favorite menus
+        return null;
+    }
+
+    public List<Review> getMenuReviews(int menuId) {
+        // Return reviews for menu
+        return null;
+    }
+
+
+
 }
 
 // ==================== MODEL CLASSES (Add these as inner classes or separate files) ====================

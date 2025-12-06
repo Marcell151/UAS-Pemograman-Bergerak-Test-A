@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:background="@color/primary"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:paddingTop="48dp"
+            android:paddingBottom="32dp">
+
+            <!-- Decorative Circles -->
+            <View
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-40dp"
+                android:layout_marginEnd="-60dp"
+                android:alpha="0.15"
+                android:background="@android:drawable/button_onoff_indicator_on"/>
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="-30dp"
+                android:layout_marginBottom="-20dp"
+                android:alpha="0.1"
+                android:background="@android:drawable/button_onoff_indicator_on"/>
+
+            <!-- Content -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_centerInParent="true">
+
+                <!-- Logo/Icon -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🍜"
+                    android:textSize="64sp"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kantin KampusKu"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sistem Pemesanan Multi-Stand"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:alpha="0.9"
+                    android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <!-- Login Form -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:layout_marginTop="-40dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="32dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Selamat Datang Kembali! 👋"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_dark"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Login untuk melanjutkan"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_gray"
+                        android:layout_marginBottom="32dp"/>
+
+                    <!-- Email Field -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_dark"
+                        android:layout_marginBottom="8dp"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/light_gray"
+                        android:layout_marginBottom="20dp">
+
+                        <EditText
+                            android:id="@+id/etEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:hint="Masukkan email"
+                            android:inputType="textEmailAddress"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:background="@android:color/transparent"
+                            android:textSize="15sp"
+                            android:drawableStart="@android:drawable/sym_action_email"
+                            android:drawablePadding="12dp"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Password Field -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Password"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_dark"
+                        android:layout_marginBottom="8dp"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/light_gray"
+                        android:layout_marginBottom="32dp">
+
+                        <EditText
+                            android:id="@+id/etPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:hint="Masukkan password"
+                            android:inputType="textPassword"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:background="@android:color/transparent"
+                            android:textSize="15sp"
+                            android:drawableStart="@android:drawable/ic_lock_lock"
+                            android:drawablePadding="12dp"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Login Button -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="4dp"
+                        app:cardBackgroundColor="@color/primary"
+                        android:layout_marginBottom="20dp">
+
+                        <TextView
+                            android:id="@+id/btnLogin"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:text="🔐 LOGIN"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:gravity="center"
+                            android:clickable="true"
+                            android:foreground="?android:attr/selectableItemBackground"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_gray"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="20dp"/>
+
+                    <!-- Register Link -->
+                    <TextView
+                        android:id="@+id/tvRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Belum punya akun? Daftar di sini!"
+                        android:textSize="14sp"
+                        android:textColor="@color/primary"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Demo Credentials -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/light_orange"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📌 Demo Credentials"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_dark"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🏪 Seller: seller1@kantin.com / seller123"
+                        android:textSize="11sp"
+                        android:textColor="@color/text_gray"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🎓 Mahasiswa: mahasiswa@example.com / buyer123"
+                        android:textSize="11sp"
+                        android:textColor="@color/text_gray"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="👨‍🏫 Dosen: dosen@example.com / buyer123"
+                        android:textSize="11sp"
+                        android:textColor="@color/text_gray"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

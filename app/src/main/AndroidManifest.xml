@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kantinkampus">
 
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,9 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
 
-        <!-- Main Activity -->
+        <!-- LAUNCHER -->
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,85 +25,31 @@
             </intent-filter>
         </activity>
 
-        <!-- Stand Activities -->
-        <activity
-            android:name=".StandListActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="Pilih Stand" />
+        <!-- Auth -->
+        <activity android:name=".RegisterActivity" />
 
-        <!-- Menu Activities -->
-        <activity
-            android:name=".MenuListActivity"
-            android:parentActivityName=".StandListActivity"
-            android:label="Menu" />
+        <!-- SELLER -->
+        <activity android:name=".SellerDashboardActivity" />
+        <activity android:name=".MyStandActivity" />
+        <activity android:name=".CreateStandActivity" />
+        <activity android:name=".SellerManageMenusActivity" />
+        <activity android:name=".SellerManageOrdersActivity" />
+        <activity android:name=".SellerStatisticsActivity" />
+        <activity android:name=".SellerProfileActivity" />
 
-        <activity
-            android:name=".MenuDetailActivity"
-            android:parentActivityName=".MenuListActivity"
-            android:label="Detail Menu" />
+        <!-- BUYER -->
+        <activity android:name=".MainActivity" />
+        <activity android:name=".StandListActivity" />
+        <activity android:name=".MenuListActivity" />
+        <activity android:name=".MenuDetailActivity" />
+        <activity android:name=".CartActivity" />
+        <activity android:name=".CheckoutActivity" />
+        <activity android:name=".BuyerOrdersActivity" />
+        <activity android:name=".FavoritesActivity" />
+        <activity android:name=".AddReviewActivity" />
 
-        <!-- Cart Activity -->
-        <activity
-            android:name=".CartActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="Keranjang" />
-
-        <!-- Checkout Activity -->
-        <activity
-            android:name=".CheckoutActivity"
-            android:parentActivityName=".CartActivity"
-            android:label="Checkout" />
-
-        <!-- History Activity -->
-        <activity
-            android:name=".HistoryActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="Riwayat Pesanan" />
-
-        <!-- Order History Activity -->
-        <activity
-            android:name=".OrderHistoryActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="Pesanan Saya" />
-
-        <!-- About Activity -->
-        <activity
-            android:name=".AboutActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="Tentang Aplikasi" />
-
-        <!-- Favorites Activity -->
-        <activity
-            android:name=".FavoritesActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="Menu Favorit" />
-
-        <!-- Admin Activities -->
-        <activity
-            android:name=".AdminDashboardActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="Admin Dashboard" />
-
-        <activity
-            android:name=".ManageMenusActivity"
-            android:parentActivityName=".AdminDashboardActivity"
-            android:label="Kelola Menu" />
-
-        <activity
-            android:name=".ManageOrdersActivity"
-            android:parentActivityName=".AdminDashboardActivity"
-            android:label="Kelola Pesanan" />
-
-        <activity
-            android:name=".AddEditMenuActivity"
-            android:parentActivityName=".ManageMenusActivity"
-            android:label="Tambah/Edit Menu" />
-
-        <!-- Add Review Activity -->
-        <activity
-            android:name=".AddReviewActivity"
-            android:parentActivityName=".MenuDetailActivity"
-            android:label="Berikan Review" />
+        <!-- SHARED -->
+        <activity android:name=".NotificationsActivity" />
 
     </application>
 
