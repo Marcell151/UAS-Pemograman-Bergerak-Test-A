@@ -259,4 +259,5 @@ public class MenuDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -109,7 +109,7 @@ public class MyStandActivity extends AppCompatActivity {
     private void loadStatistics() {
         try {
             // Total menus
-            List<Menu> menus = dbHelper.getMenusByStand(myStand.getId());
+            List<com.example.kantinkampus.Menu> menus = dbHelper.getMenusByStand(myStand.getId());
             tvTotalMenus.setText(String.valueOf(menus.size()) + " menu");
 
             // Total orders
@@ -197,8 +197,7 @@ public class MyStandActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_profile) {
             // Open profile
-            Intent intent = new Intent(this, SellerProfileActivity.class);
-            startActivity(intent);
+            Toast.makeText(this, "Profil - Coming Soon", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_logout) {
             // Logout

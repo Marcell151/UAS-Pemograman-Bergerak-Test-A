@@ -1638,36 +1638,43 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public int getTodayRevenue(int sellerId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        try {
-            String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        int revenue = 0;
 
-            String query = "SELECT SUM(o." + ORDER_TOTAL + ") FROM " + TABLE_ORDERS + " o " +
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            String today = sdf.format(new Date());
+
+            String query = "SELECT SUM(o." + ORDER_TOTAL + ") as revenue " +
+                    "FROM " + TABLE_ORDERS + " o " +
                     "INNER JOIN " + TABLE_STAND + " s ON o." + ORDER_STAND_ID + " = s." + STAND_ID + " " +
                     "WHERE s." + STAND_SELLER_ID + " = ? " +
                     "AND o." + ORDER_STATUS + " = 'completed' " +
                     "AND DATE(o." + ORDER_CREATED_AT + ") = ?";
 
             Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(sellerId), today});
-            int total = 0;
+
             if (cursor.moveToFirst()) {
-                total = cursor.getInt(0);
+                revenue = cursor.getInt(0);
             }
             cursor.close();
-            return total;
+
         } catch (Exception e) {
-            Log.e(TAG, "❌ Error getting today revenue: " + e.getMessage(), e);
-            return 0;
+            Log.e(TAG, "❌ Error getting today's revenue: " + e.getMessage(), e);
         }
+
+        return revenue;
     }
 
 
     public int getTotalOrdersBySeller(int sellerId, String status) {
         SQLiteDatabase db = this.getReadableDatabase();
+        int count = 0;
+
         try {
             String query;
             String[] args;
 
-            if ("all".equals(status)) {
+            if (status.equals("all")) {
                 query = "SELECT COUNT(*) FROM " + TABLE_ORDERS + " o " +
                         "INNER JOIN " + TABLE_STAND + " s ON o." + ORDER_STAND_ID + " = s." + STAND_ID + " " +
                         "WHERE s." + STAND_SELLER_ID + " = ?";
@@ -1680,16 +1687,17 @@ public class DBHelper extends SQLiteOpenHelper {
             }
 
             Cursor cursor = db.rawQuery(query, args);
-            int count = 0;
+
             if (cursor.moveToFirst()) {
                 count = cursor.getInt(0);
             }
             cursor.close();
-            return count;
+
         } catch (Exception e) {
-            Log.e(TAG, "❌ Error getting orders: " + e.getMessage(), e);
-            return 0;
+            Log.e(TAG, "❌ Error getting total orders: " + e.getMessage(), e);
         }
+
+        return count;
     }
 
 
