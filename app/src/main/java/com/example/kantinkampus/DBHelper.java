@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 /**
  * KANTIN KAMPUS - COMPLETE DATABASE HELPER
  * Version: 3.0 - Complete Rebuild
@@ -744,7 +743,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Get menus by stand ID
      */
-    public List<android.view.Menu> getMenusByStand(int standId) {
+    public List<Menu> getMenusByStand(int standId) {
         List<Menu> menus = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
