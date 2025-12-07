@@ -744,7 +744,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Get menus by stand ID
      */
-    public List<Menu> getMenusByStand(int standId) {
+    public List<android.view.Menu> getMenusByStand(int standId) {
         List<Menu> menus = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
