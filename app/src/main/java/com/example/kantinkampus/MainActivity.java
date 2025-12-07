@@ -5,149 +5,155 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 /**
- * MAIN ACTIVITY - Buyer Home Screen
- * Main hub for buyers to access all features
+ * MAIN ACTIVITY - Buyer Home
+ * Dashboard for buyer with navigation to all features
  */
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+    private TextView tvWelcome, tvCartCount;
+    private CardView cardBrowseStands, cardCart, cardOrders, cardFavorites, cardProfile;
 
-    private SessionManager sessionManager;
     private DBHelper dbHelper;
-
-    private TextView tvWelcome, tvUserType, tvCartCount, tvOrderCount;
-    private CardView cardBrowseStands, cardMyCart, cardMyOrders,
-            cardFavorites, cardProfile;
-
-    private int buyerId;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        // Initialize
+        // Check if logged in
         sessionManager = new SessionManager(this);
-        dbHelper = new DBHelper(this);
+        if (!sessionManager.isLoggedIn()) {
+            redirectToLogin();
+            return;
+        }
 
-        // Check if buyer is logged in
-        if (!sessionManager.isBuyer()) {
-            // Not a buyer, redirect to login
-            Toast.makeText(this, "Silakan login terlebih dahulu", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        // Check role - redirect if seller
+        if (sessionManager.isSeller()) {
+            Intent intent = new Intent(this, SellerDashboardActivity.class);
             startActivity(intent);
             finish();
             return;
         }
 
-        buyerId = sessionManager.getUserId();
+        setContentView(R.layout.activity_main);
 
-        // Initialize views
-        initViews();
+        // Initialize
+        dbHelper = new DBHelper(this);
 
-        // Load user data
-        loadUserData();
-
-        // Setup listeners
-        setupListeners();
-    }
-
-    private void initViews() {
-        tvWelcome = findViewById(R.id.tvWelcome);
-        tvUserType = findViewById(R.id.tvUserType);
-        tvCartCount = findViewById(R.id.tvCartCount);
-        tvOrderCount = findViewById(R.id.tvOrderCount);
-
-        cardBrowseStands = findViewById(R.id.cardBrowseStands);
-        cardMyCart = findViewById(R.id.cardMyCart);
-        cardMyOrders = findViewById(R.id.cardMyOrders);
-        cardFavorites = findViewById(R.id.cardFavorites);
-        cardProfile = findViewById(R.id.cardProfile);
-    }
-
-    private void loadUserData() {
-        // Set welcome message
-        tvWelcome.setText(sessionManager.getGreetingMessage());
-
-        // Set user type
-        User user = sessionManager.getUserDetails();
-        if (user != null) {
-            String typeText = user.getRoleDisplay() + " • " + user.getIdNumberLabel();
-            tvUserType.setText(typeText);
+        // Setup toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Kantin KampusKu");
         }
 
-        // Load cart count
-        int cartCount = dbHelper.getCartCount(buyerId);
-        tvCartCount.setText(String.valueOf(cartCount));
+        // Initialize views
+        tvWelcome = findViewById(R.id.tvWelcome);
+        tvCartCount = findViewById(R.id.tvCartCount);
+        cardBrowseStands = findViewById(R.id.cardBrowseStands);
+        cardCart = findViewById(R.id.cardCart);
+        cardOrders = findViewById(R.id.cardOrders);
+        cardFavorites = findViewById(R.id.cardFavorites);
+        cardProfile = findViewById(R.id.cardProfile);
 
-        // Load active orders count
-        int orderCount = dbHelper.getOrdersByBuyer(buyerId).size();
-        tvOrderCount.setText(String.valueOf(orderCount));
+        // Set welcome message
+        User user = sessionManager.getUserDetails();
+        if (user != null) {
+            String greeting = "Halo, " + user.getName() + "! 👋\n" + user.getRoleDisplay();
+            tvWelcome.setText(greeting);
+        }
+
+        // Update cart count
+        updateCartCount();
+
+        // Setup click listeners
+        setupClickListeners();
     }
 
-    private void setupListeners() {
+    private void setupClickListeners() {
+        // Browse Stands
         cardBrowseStands.setOnClickListener(v -> {
             Intent intent = new Intent(this, StandListActivity.class);
             startActivity(intent);
         });
 
-        cardMyCart.setOnClickListener(v -> {
+        // Cart
+        cardCart.setOnClickListener(v -> {
             Intent intent = new Intent(this, CartActivity.class);
             startActivity(intent);
         });
 
-        cardMyOrders.setOnClickListener(v -> {
+        // Orders
+        cardOrders.setOnClickListener(v -> {
             Intent intent = new Intent(this, BuyerOrdersActivity.class);
             startActivity(intent);
         });
 
+        // Favorites
         cardFavorites.setOnClickListener(v -> {
             Intent intent = new Intent(this, FavoritesActivity.class);
             startActivity(intent);
         });
 
-        cardProfile.setOnClickListener(v -> {
-            showProfileDialog();
-        });
+        // Profile (logout for now)
+        cardProfile.setOnClickListener(v -> showProfileOptions());
     }
 
-    private void showProfileDialog() {
+    private void updateCartCount() {
+        int userId = sessionManager.getUserId();
+        int cartCount = dbHelper.getCartCount(userId);
+        tvCartCount.setText(cartCount + " item");
+    }
+
+    private void showProfileOptions() {
         User user = sessionManager.getUserDetails();
         if (user == null) return;
 
-        StringBuilder profile = new StringBuilder();
-        profile.append("👤 Nama: ").append(user.getName()).append("\n\n");
-        profile.append("📧 Email: ").append(user.getEmail()).append("\n\n");
-        profile.append("📞 HP: ").append(user.getPhone()).append("\n\n");
-        profile.append("🎓 Tipe: ").append(user.getRoleDisplay()).append("\n\n");
-        profile.append(user.getIdNumberLabel());
+        String message = "👤 " + user.getName() + "\n" +
+                "📧 " + user.getEmail() + "\n" +
+                "📱 " + user.getPhone() + "\n" +
+                user.getIdNumberLabel();
 
-        new AlertDialog.Builder(this)
-                .setTitle("Profile Saya")
-                .setMessage(profile.toString())
-                .setPositiveButton("OK", null)
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Profil Saya")
+                .setMessage(message)
+                .setPositiveButton("Logout", (dialog, which) -> logout())
+                .setNegativeButton("Tutup", null)
                 .show();
+    }
+
+    private void logout() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Yakin ingin keluar dari aplikasi?")
+                .setPositiveButton("Ya", (dialog, which) -> {
+                    sessionManager.logoutUser();
+                    redirectToLogin();
+                })
+                .setNegativeButton("Batal", null)
+                .show();
+    }
+
+    private void redirectToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCartCount(); // Update when returning to activity
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.buyer_menu, menu);
-
-        // Update cart badge
-        MenuItem cartItem = menu.findItem(R.id.action_cart);
-        if (cartItem != null) {
-            int count = dbHelper.getCartCount(buyerId);
-            if (count > 0) {
-                cartItem.setTitle("🛒 (" + count + ")");
-            }
-        }
-
         return true;
     }
 
@@ -159,49 +165,23 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, CartActivity.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.action_notifications) {
-            Intent intent = new Intent(this, NotificationsActivity.class);
-            startActivity(intent);
-            return true;
         } else if (id == R.id.action_logout) {
-            showLogoutDialog();
+            logout();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void showLogoutDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Logout")
-                .setMessage("Yakin ingin keluar?")
-                .setPositiveButton("Ya", (dialog, which) -> {
-                    sessionManager.logoutUser();
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                })
-                .setNegativeButton("Tidak", null)
-                .show();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Refresh data when returning
-        loadUserData();
-        invalidateOptionsMenu(); // Update cart badge
-    }
-
     @Override
     public void onBackPressed() {
-        // Show exit confirmation
-        new AlertDialog.Builder(this)
+        // Confirm exit
+        new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("Keluar Aplikasi")
                 .setMessage("Yakin ingin keluar dari aplikasi?")
                 .setPositiveButton("Ya", (dialog, which) -> {
-                    moveTaskToBack(true);
+                    super.onBackPressed();
+                    finishAffinity();
                 })
                 .setNegativeButton("Tidak", null)
                 .show();

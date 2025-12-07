@@ -147,11 +147,12 @@ public class CheckoutActivity extends AppCompatActivity {
             message += "📱 Pesanan akan diverifikasi setelah penjual memeriksa pembayaran.";
         }
 
+        String finalPaymentProof = paymentProof;
         new AlertDialog.Builder(this)
                 .setTitle("Konfirmasi Pesanan")
                 .setMessage(message)
                 .setPositiveButton("Ya, Pesan", (dialog, which) -> {
-                    processOrder(paymentMethod, paymentProof);
+                    processOrder(paymentMethod, finalPaymentProof);
                 })
                 .setNegativeButton("Batal", null)
                 .show();

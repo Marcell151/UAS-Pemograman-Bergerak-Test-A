@@ -1,54 +1,94 @@
 package com.example.kantinkampus;
 
+/**
+ * REVIEW MODEL - Updated with buyerName
+ */
 public class Review {
     private int id;
-    private int userId;
+    private int buyerId;
     private int menuId;
     private int orderId;
     private int rating;
     private String comment;
     private String createdAt;
-
-    // For display
-    private String userName;
+    private String buyerName; // ADD THIS FIELD
 
     public Review() {}
 
-    // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
 
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public int getMenuId() { return menuId; }
-    public void setMenuId(int menuId) { this.menuId = menuId; }
+    public int getBuyerId() {
+        return buyerId;
+    }
 
-    public int getOrderId() { return orderId; }
-    public void setOrderId(int orderId) { this.orderId = orderId; }
+    public void setBuyerId(int buyerId) {
+        this.buyerId = buyerId;
+    }
 
-    public int getRating() { return rating; }
-    public void setRating(int rating) { this.rating = rating; }
+    public int getMenuId() {
+        return menuId;
+    }
 
-    public String getComment() { return comment; }
-    public void setComment(String comment) { this.comment = comment; }
+    public void setMenuId(int menuId) {
+        this.menuId = menuId;
+    }
 
-    public String getCreatedAt() { return createdAt; }
-    public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
+    public int getOrderId() {
+        return orderId;
+    }
 
-    public String getUserName() { return userName; }
-    public void setUserName(String userName) { this.userName = userName; }
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
 
-    public String getStarsDisplay() {
-        StringBuilder stars = new StringBuilder();
-        for (int i = 0; i < 5; i++) {
-            stars.append(i < rating ? "⭐" : "☆");
-        }
-        return stars.toString();
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getBuyerName() {
+        return buyerName;
+    }
+
+    public void setBuyerName(String buyerName) {
+        this.buyerName = buyerName;
     }
 
     @Override
     public String toString() {
-        return "Review{rating=" + rating + ", user='" + userName + "'}";
+        return "Review{" +
+                "id=" + id +
+                ", buyerId=" + buyerId +
+                ", menuId=" + menuId +
+                ", rating=" + rating +
+                ", comment='" + comment + '\'' +
+                ", buyerName='" + buyerName + '\'' +
+                '}';
     }
 }

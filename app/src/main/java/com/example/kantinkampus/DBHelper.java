@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import java.util.Map;
+import java.util.LinkedHashMap;
+
 /**
  * KANTIN KAMPUS - COMPLETE DATABASE HELPER
  * Version: 3.0 - Complete Rebuild
@@ -1569,22 +1573,25 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // ==================== HELPER METHODS ====================
 
-    private Stand getStandById(int standId) {
+    public Stand getStandById(int standId) {
         SQLiteDatabase db = this.getReadableDatabase();
         try {
             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_STAND + " WHERE " + STAND_ID + " = ?",
                     new String[]{String.valueOf(standId)});
+
             Stand stand = null;
             if (cursor.moveToFirst()) {
                 stand = new Stand();
                 stand.setId(cursor.getInt(cursor.getColumnIndexOrThrow(STAND_ID)));
                 stand.setOwnerId(cursor.getInt(cursor.getColumnIndexOrThrow(STAND_SELLER_ID)));
                 stand.setNama(cursor.getString(cursor.getColumnIndexOrThrow(STAND_NAME)));
+                stand.setDeskripsi(cursor.getString(cursor.getColumnIndexOrThrow(STAND_DESCRIPTION)));
+                stand.setImage(cursor.getString(cursor.getColumnIndexOrThrow(STAND_IMAGE)));
             }
             cursor.close();
             return stand;
         } catch (Exception e) {
-            Log.e(TAG, "❌ Error getting stand: " + e.getMessage(), e);
+            Log.e(TAG, "❌ Error getting stand by ID: " + e.getMessage(), e);
             return null;
         }
     }
@@ -1687,14 +1694,223 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public List<Menu> getFavoriteMenus(int buyerId) {
-        // Return favorite menus
-        return null;
+        List<Menu> menus = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        try {
+            String query = "SELECT m.*, " +
+                    "COALESCE(AVG(r." + REVIEW_RATING + "), 0) as avg_rating, " +
+                    "COUNT(DISTINCT r." + REVIEW_ID + ") as total_reviews " +
+                    "FROM " + TABLE_FAVORITES + " f " +
+                    "INNER JOIN " + TABLE_MENU + " m ON f." + FAV_MENU_ID + " = m." + MENU_ID + " " +
+                    "LEFT JOIN " + TABLE_REVIEWS + " r ON m." + MENU_ID + " = r." + REVIEW_MENU_ID + " " +
+                    "WHERE f." + FAV_BUYER_ID + " = ? " +
+                    "GROUP BY m." + MENU_ID + " " +
+                    "ORDER BY f." + FAV_CREATED_AT + " DESC";
+
+            Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(buyerId)});
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Menu menu = new Menu();
+                    menu.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MENU_ID)));
+                    menu.setStandId(cursor.getInt(cursor.getColumnIndexOrThrow(MENU_STAND_ID)));
+                    menu.setNama(cursor.getString(cursor.getColumnIndexOrThrow(MENU_NAME)));
+                    menu.setHarga(cursor.getInt(cursor.getColumnIndexOrThrow(MENU_PRICE)));
+                    menu.setImage(cursor.getString(cursor.getColumnIndexOrThrow(MENU_IMAGE)));
+                    menu.setDeskripsi(cursor.getString(cursor.getColumnIndexOrThrow(MENU_DESCRIPTION)));
+                    menu.setKategori(cursor.getString(cursor.getColumnIndexOrThrow(MENU_CATEGORY)));
+                    menu.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(MENU_STATUS)));
+                    menu.setAverageRating(cursor.getFloat(cursor.getColumnIndexOrThrow("avg_rating")));
+                    menu.setTotalReviews(cursor.getInt(cursor.getColumnIndexOrThrow("total_reviews")));
+                    menus.add(menu);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+            Log.e(TAG, "❌ Error getting favorite menus: " + e.getMessage(), e);
+        }
+
+        return menus;
     }
 
+
     public List<Review> getMenuReviews(int menuId) {
-        // Return reviews for menu
-        return null;
+        List<Review> reviews = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        try {
+            String query = "SELECT r.*, u." + USER_NAME + " " +
+                    "FROM " + TABLE_REVIEWS + " r " +
+                    "INNER JOIN " + TABLE_USERS + " u ON r." + REVIEW_BUYER_ID + " = u." + USER_ID + " " +
+                    "WHERE r." + REVIEW_MENU_ID + " = ? " +
+                    "ORDER BY r." + REVIEW_CREATED_AT + " DESC";
+
+            Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(menuId)});
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Review review = new Review();
+                    review.setId(cursor.getInt(cursor.getColumnIndexOrThrow(REVIEW_ID)));
+                    review.setBuyerId(cursor.getInt(cursor.getColumnIndexOrThrow(REVIEW_BUYER_ID)));
+                    review.setMenuId(cursor.getInt(cursor.getColumnIndexOrThrow(REVIEW_MENU_ID)));
+                    review.setRating(cursor.getInt(cursor.getColumnIndexOrThrow(REVIEW_RATING)));
+                    review.setComment(cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_COMMENT)));
+                    review.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(REVIEW_CREATED_AT)));
+                    review.setBuyerName(cursor.getString(cursor.getColumnIndexOrThrow(USER_NAME)));
+                    reviews.add(review);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+            Log.e(TAG, "❌ Error getting reviews: " + e.getMessage(), e);
+        }
+
+        return reviews;
     }
+
+
+    public List<Menu> searchMenus(String query) {
+        List<Menu> menus = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        try {
+            String sql = "SELECT m.*, " +
+                    "COALESCE(AVG(r." + REVIEW_RATING + "), 0) as avg_rating, " +
+                    "COUNT(DISTINCT r." + REVIEW_ID + ") as total_reviews " +
+                    "FROM " + TABLE_MENU + " m " +
+                    "LEFT JOIN " + TABLE_REVIEWS + " r ON m." + MENU_ID + " = r." + REVIEW_MENU_ID + " " +
+                    "WHERE m." + MENU_NAME + " LIKE ? " +
+                    "OR m." + MENU_DESCRIPTION + " LIKE ? " +
+                    "OR m." + MENU_CATEGORY + " LIKE ? " +
+                    "GROUP BY m." + MENU_ID + " " +
+                    "ORDER BY m." + MENU_NAME;
+
+            String searchPattern = "%" + query + "%";
+            Cursor cursor = db.rawQuery(sql, new String[]{searchPattern, searchPattern, searchPattern});
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Menu menu = new Menu();
+                    menu.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MENU_ID)));
+                    menu.setStandId(cursor.getInt(cursor.getColumnIndexOrThrow(MENU_STAND_ID)));
+                    menu.setNama(cursor.getString(cursor.getColumnIndexOrThrow(MENU_NAME)));
+                    menu.setHarga(cursor.getInt(cursor.getColumnIndexOrThrow(MENU_PRICE)));
+                    menu.setImage(cursor.getString(cursor.getColumnIndexOrThrow(MENU_IMAGE)));
+                    menu.setDeskripsi(cursor.getString(cursor.getColumnIndexOrThrow(MENU_DESCRIPTION)));
+                    menu.setKategori(cursor.getString(cursor.getColumnIndexOrThrow(MENU_CATEGORY)));
+                    menu.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(MENU_STATUS)));
+                    menu.setAverageRating(cursor.getFloat(cursor.getColumnIndexOrThrow("avg_rating")));
+                    menu.setTotalReviews(cursor.getInt(cursor.getColumnIndexOrThrow("total_reviews")));
+                    menus.add(menu);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+            Log.e(TAG, "❌ Error searching menus: " + e.getMessage(), e);
+        }
+
+        return menus;
+    }
+
+
+
+    public Map<Integer, List<CartItem>> getCartItemsGroupedByStand(int buyerId) {
+        Map<Integer, List<CartItem>> groupedItems = new LinkedHashMap<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        try {
+            String query = "SELECT c.*, m.*, s." + STAND_ID + " " +
+                    "FROM " + TABLE_CART + " c " +
+                    "INNER JOIN " + TABLE_MENU + " m ON c." + CART_MENU_ID + " = m." + MENU_ID + " " +
+                    "INNER JOIN " + TABLE_STAND + " s ON m." + MENU_STAND_ID + " = s." + STAND_ID + " " +
+                    "WHERE c." + CART_BUYER_ID + " = ? " +
+                    "ORDER BY s." + STAND_NAME + ", m." + MENU_NAME;
+
+            Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(buyerId)});
+
+            if (cursor.moveToFirst()) {
+                do {
+                    int standId = cursor.getInt(cursor.getColumnIndexOrThrow(STAND_ID));
+
+                    CartItem item = new CartItem();
+                    item.setId(cursor.getInt(cursor.getColumnIndexOrThrow(CART_ID)));
+                    item.setUserId(buyerId);
+                    item.setQty(cursor.getInt(cursor.getColumnIndexOrThrow(CART_QTY)));
+                    item.setNotes(cursor.getString(cursor.getColumnIndexOrThrow(CART_NOTES)));
+
+                    Menu menu = new Menu();
+                    menu.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MENU_ID)));
+                    menu.setStandId(standId);
+                    menu.setNama(cursor.getString(cursor.getColumnIndexOrThrow(MENU_NAME)));
+                    menu.setHarga(cursor.getInt(cursor.getColumnIndexOrThrow(MENU_PRICE)));
+                    menu.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(MENU_STATUS)));
+
+                    item.setMenu(menu);
+
+                    // Group by stand
+                    if (!groupedItems.containsKey(standId)) {
+                        groupedItems.put(standId, new ArrayList<>());
+                    }
+                    groupedItems.get(standId).add(item);
+
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+            Log.e(TAG, "❌ Error getting grouped cart items: " + e.getMessage(), e);
+        }
+
+        return groupedItems;
+    }
+
+
+    public List<Menu> getAllAvailableMenus() {
+        List<Menu> menus = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        try {
+            String query = "SELECT m.*, " +
+                    "COALESCE(AVG(r." + REVIEW_RATING + "), 0) as avg_rating, " +
+                    "COUNT(DISTINCT r." + REVIEW_ID + ") as total_reviews " +
+                    "FROM " + TABLE_MENU + " m " +
+                    "LEFT JOIN " + TABLE_REVIEWS + " r ON m." + MENU_ID + " = r." + REVIEW_MENU_ID + " " +
+                    "WHERE m." + MENU_STATUS + " = 'available' " +
+                    "GROUP BY m." + MENU_ID + " " +
+                    "ORDER BY m." + MENU_CREATED_AT + " DESC";
+
+            Cursor cursor = db.rawQuery(query, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Menu menu = new Menu();
+                    menu.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MENU_ID)));
+                    menu.setStandId(cursor.getInt(cursor.getColumnIndexOrThrow(MENU_STAND_ID)));
+                    menu.setNama(cursor.getString(cursor.getColumnIndexOrThrow(MENU_NAME)));
+                    menu.setHarga(cursor.getInt(cursor.getColumnIndexOrThrow(MENU_PRICE)));
+                    menu.setImage(cursor.getString(cursor.getColumnIndexOrThrow(MENU_IMAGE)));
+                    menu.setDeskripsi(cursor.getString(cursor.getColumnIndexOrThrow(MENU_DESCRIPTION)));
+                    menu.setKategori(cursor.getString(cursor.getColumnIndexOrThrow(MENU_CATEGORY)));
+                    menu.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(MENU_STATUS)));
+                    menu.setAverageRating(cursor.getFloat(cursor.getColumnIndexOrThrow("avg_rating")));
+                    menu.setTotalReviews(cursor.getInt(cursor.getColumnIndexOrThrow("total_reviews")));
+                    menus.add(menu);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+            Log.e(TAG, "❌ Error getting available menus: " + e.getMessage(), e);
+        }
+
+        return menus;
+    }
+
+
 
 }
 

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.kantinkampus">
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -10,38 +14,128 @@
         android:label="Kantin KampusKu"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        android:theme="@style/Theme.UAS_PemrogramanBergerak"
+        tools:targetApi="31">
 
-        <!-- LAUNCHER -->
+        <!-- LAUNCHER ACTIVITY -->
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- AUTH -->
-        <activity android:name=".RegisterActivity" />
+        <!-- AUTHENTICATION -->
+        <activity
+            android:name=".RegisterActivity"
+            android:parentActivityName=".LoginActivity"
+            android:label="Daftar Akun"
+            android:screenOrientation="portrait" />
 
-        <!-- SELLER -->
-        <activity android:name=".SellerDashboardActivity" />
-        <activity android:name=".MyStandActivity" />
-        <activity android:name=".CreateStandActivity" />
-        <activity android:name=".SellerManageMenusActivity" />
-        <activity android:name=".SellerManageOrdersActivity" />
+        <!-- SELLER ACTIVITIES -->
+        <activity
+            android:name=".SellerDashboardActivity"
+            android:label="Dashboard Penjual"
+            android:screenOrientation="portrait" />
 
-        <!-- BUYER -->
-        <activity android:name=".MainActivity" />
-        <activity android:name=".StandListActivity" />
-        <activity android:name=".MenuListActivity" />
+        <activity
+            android:name=".MyStandActivity"
+            android:parentActivityName=".SellerDashboardActivity"
+            android:label="Stand Saya"
+            android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".CreateStandActivity"
+            android:parentActivityName=".SellerDashboardActivity"
+            android:label="Buat Stand"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".CartActivity" />
-        <activity android:name=".CheckoutActivity" />
-        <activity android:name=".BuyerOrdersActivity" />
+        <activity
+            android:name=".SellerManageMenusActivity"
+            android:parentActivityName=".SellerDashboardActivity"
+            android:label="Kelola Menu"
+            android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".SellerManageOrdersActivity"
+            android:parentActivityName=".SellerDashboardActivity"
+            android:label="Kelola Pesanan"
+            android:screenOrientation="portrait" />
+
+        <!-- BUYER ACTIVITIES -->
+        <activity
+            android:name=".MainActivity"
+            android:label="Kantin KampusKu"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".StandListActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Pilih Stand"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".MenuListActivity"
+            android:parentActivityName=".StandListActivity"
+            android:label="Menu"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".MenuDetailActivity"
+            android:parentActivityName=".MenuListActivity"
+            android:label="Detail Menu"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".CartActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Keranjang"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".CheckoutActivity"
+            android:parentActivityName=".CartActivity"
+            android:label="Pembayaran"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".BuyerOrdersActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Pesanan Saya"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".FavoritesActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Menu Favorit"
+            android:screenOrientation="portrait" />
+
+        <!-- OPTIONAL ACTIVITIES (for future implementation) -->
+        <activity
+            android:name=".AddReviewActivity"
+            android:parentActivityName=".MenuDetailActivity"
+            android:label="Berikan Ulasan"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".NotificationsActivity"
+            android:label="Notifikasi"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".SellerStatisticsActivity"
+            android:parentActivityName=".SellerDashboardActivity"
+            android:label="Statistik Penjualan"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".SellerProfileActivity"
+            android:parentActivityName=".SellerDashboardActivity"
+            android:label="Profil Penjual"
+            android:screenOrientation="portrait" />
 
     </application>
 
