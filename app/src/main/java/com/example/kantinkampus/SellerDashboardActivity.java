@@ -97,12 +97,14 @@ public class SellerDashboardActivity extends AppCompatActivity {
 
         // Statistics (placeholder)
         cardStatistics.setOnClickListener(v -> {
-            Toast.makeText(this, "📊 Statistik Detail - Coming Soon", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, SellerStatisticsActivity.class);
+            startActivity(intent);
         });
 
         // Notifications (placeholder)
         cardNotifications.setOnClickListener(v -> {
-            Toast.makeText(this, "🔔 Notifikasi - Coming Soon", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, NotificationsActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -166,19 +168,8 @@ public class SellerDashboardActivity extends AppCompatActivity {
     }
 
     private void showProfile() {
-        User user = sessionManager.getUserDetails();
-        if (user == null) return;
-
-        String message = "👤 " + user.getName() + "\n" +
-                "📧 " + user.getEmail() + "\n" +
-                "📱 " + user.getPhone() + "\n" +
-                user.getIdNumberLabel();
-
-        new AlertDialog.Builder(this)
-                .setTitle("Profil Penjual")
-                .setMessage(message)
-                .setPositiveButton("OK", null)
-                .show();
+        Intent intent = new Intent(this, SellerProfileActivity.class);
+        startActivity(intent);
     }
 
     private void logout() {

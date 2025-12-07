@@ -196,8 +196,8 @@ public class MyStandActivity extends AppCompatActivity {
             finish();
             return true;
         } else if (id == R.id.action_profile) {
-            // Open profile
-            Toast.makeText(this, "Profil - Coming Soon", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, SellerProfileActivity.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.action_logout) {
             // Logout
