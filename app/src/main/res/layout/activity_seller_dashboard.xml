@@ -438,7 +438,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Verifikasi & proses pesanan"
+                            android:text="Verifikasi dan proses pesanan"
                             android:textSize="13sp"
                             android:textColor="@color/text_gray"
                             android:layout_marginTop="4dp"/>
@@ -490,7 +490,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Statistik & Laporan"
+                            android:text="Statistik dan Laporan"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="@color/text_dark"/>

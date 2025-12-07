@@ -131,4 +131,5 @@ public class MenuAdapterBuyer extends RecyclerView.Adapter<MenuAdapterBuyer.Menu
             btnFavorite = itemView.findViewById(R.id.btnFavorite);
         }
     }
+
 }
